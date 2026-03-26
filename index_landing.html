@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Roots Farm — Microgreens en Monterrey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Josefin+Sans:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0f2b0f;
+    --green-mid: #2d5a27;
+    --green-bright: #4a8c3f;
+    --green-light: #a8d5a2;
+    --green-pale: #e8f5e3;
+    --amber: #c87a2e;
+    --amber-light: #e8b44c;
+    --cream: #f4f1ea;
+    --warm-white: #faf9f6;
+    --charcoal: #1c1c1a;
+    --stone: #6b6b60;
+    --border: rgba(26,58,26,0.10);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --shadow-soft: 0 8px 40px rgba(15,43,15,0.08);
+    --shadow-hover: 0 20px 60px rgba(15,43,15,0.14);
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Outfit', sans-serif; background: var(--warm-white); color: var(--charcoal); overflow-x: hidden; font-weight: 300; }
+  body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ═══ PAGE LOADER ═══ */
+  .page-loader { position: fixed; inset: 0; z-index: 10000; background: var(--green-deep); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
+  .page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .loader-logo { width: 60px; height: 60px; animation: loaderPulse 1.2s ease-in-out infinite; filter: brightness(2); }
+  .loader-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 1.5rem; overflow: hidden; }
+  .loader-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--green-light); border-radius: 2px; animation: loaderSlide 1s ease-in-out infinite; }
+  @keyframes loaderPulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: 0.7; } }
+  @keyframes loaderSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+
+  /* ═══ FLOATING WHATSAPP BUTTON ═══ */
+  .floating-wa { position: fixed; bottom: 2rem; right: 2rem; z-index: 900; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); cursor: pointer; text-decoration: none; transition: all 0.4s var(--transition-smooth); animation: floatWA 3s ease-in-out infinite; }
+  .floating-wa:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.5); }
+  .floating-wa svg { width: 28px; height: 28px; fill: white; }
+  .floating-wa-pulse { position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #25d366; animation: waPulseRing 2s ease-out infinite; pointer-events: none; }
+  @keyframes floatWA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes waPulseRing { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.4); opacity: 0; } }
+
+  /* ═══ ENHANCED BUTTON RIPPLE ═══ */
+  .btn-primary, .btn-full.green, .nav-cta, .btn-mp-pago { position: relative; overflow: hidden; }
+  .btn-ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: rippleOut 0.6s ease-out; pointer-events: none; }
+  @keyframes rippleOut { to { transform: scale(4); opacity: 0; } }
+
+  /* ═══ SMOOTH MODAL ANIMATION ═══ */
+  .modal-overlay { backdrop-filter: blur(0px); transition: backdrop-filter 0.4s ease; }
+  .modal-overlay[style*="flex"] { backdrop-filter: blur(8px); }
+  .modal-box { animation: modalSlideUp 0.5s var(--transition-smooth) both; }
+  @keyframes modalSlideUp { from { opacity: 0; transform: translateY(40px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  /* ═══ CARD 3D TILT ═══ */
+  .producto-card, .benefit-card, .future-card, .use-card, .kit-step { transform-style: preserve-3d; }
+
+  /* ═══ COUNTER ANIMATION ═══ */
+  .count-up { display: inline-block; }
+
+  /* ═══ SMOOTH SCROLL PROGRESS ═══ */
+  .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green-bright), var(--green-light), var(--amber-light)); z-index: 101; width: 0%; transition: width 0.1s linear; pointer-events: none; }
+
+  /* ═══ SECTION DIVIDER WAVE ═══ */
+  .wave-divider { position: relative; margin-top: -2px; }
+  .wave-divider svg { display: block; width: 100%; height: auto; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 3rem; display: flex; align-items: center; justify-content: space-between; background: rgba(250,249,246,0.85); backdrop-filter: blur(20px) saturate(1.8); border-bottom: 1px solid var(--border); transition: all 0.5s var(--transition-smooth); }
+  nav.scrolled { padding: 0.7rem 3rem; box-shadow: 0 4px 30px rgba(15,43,15,0.06); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-text { font-family: 'Josefin Sans', sans-serif; font-size: 1rem; color: var(--green-deep); line-height: 1; letter-spacing: 0.18em; font-weight: 400; text-transform: uppercase; }
+  nav ul { list-style: none; display: flex; gap: 2.2rem; align-items: center; }
+  nav ul a { text-decoration: none; color: var(--stone); font-size: 0.85rem; font-weight: 400; transition: color 0.3s; position: relative; }
+  nav ul a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--green-mid); transition: width 0.4s var(--transition-smooth); }
+  nav ul a:hover { color: var(--green-deep); }
+  nav ul a:hover::after { width: 100%; }
+  .nav-cta { background: var(--green-mid) !important; color: white !important; padding: 0.55rem 1.4rem; border-radius: 50px; font-weight: 500 !important; transition: all 0.3s var(--transition-smooth) !important; letter-spacing: 0.02em; }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--green-deep) !important; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,90,39,0.3); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 101; background: none; border: none; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--green-deep); border-radius: 2px; transition: all 0.4s var(--transition-smooth); }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168,213,162,0.15) 0%, transparent 70%); z-index: 1; pointer-events: none; animation: floatBlob 20s ease-in-out infinite; }
+  .hero::after { content: ''; position: absolute; bottom: -100px; right: 30%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(200,122,46,0.08) 0%, transparent 70%); z-index: 1; pointer-events: none; animation: floatBlob 25s ease-in-out infinite reverse; }
+  @keyframes floatBlob { 0%,100%{transform:translate(0,0)} 33%{transform:translate(60px,-40px)} 66%{transform:translate(-30px,50px)} }
+  .hero-left { padding: 8rem 4rem 4rem 5rem; position: relative; z-index: 2; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,245,227,0.7); border: 1px solid var(--green-light); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green-mid); font-weight: 500; margin-bottom: 2rem; animation: fadeUp 0.8s ease both; backdrop-filter: blur(8px); }
+  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--green-bright); border-radius: 50%; animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.2rem,5.5vw,5rem); line-height: 1.02; color: var(--green-deep); margin-bottom: 1.8rem; animation: fadeUp 0.8s 0.1s ease both; font-weight: 400; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: italic; color: var(--green-bright); font-weight: 400; }
+  .hero-sub { font-size: 1.05rem; line-height: 1.8; color: var(--stone); max-width: 440px; margin-bottom: 2.5rem; font-weight: 300; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-actions { display: flex; gap: 1.2rem; align-items: center; animation: fadeUp 0.8s 0.3s ease both; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--green-mid); color: white; padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.92rem; transition: all 0.4s var(--transition-smooth); box-shadow: 0 4px 20px rgba(45,90,39,0.25); cursor: pointer; border: none; letter-spacing: 0.02em; font-family: 'Outfit', sans-serif; }
+  .btn-primary:hover { background: var(--green-deep); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(45,90,39,0.35); }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 6px; color: var(--green-mid); text-decoration: none; font-weight: 500; font-size: 0.92rem; border-bottom: 1.5px solid var(--green-light); padding-bottom: 2px; transition: all 0.3s; }
+  .btn-secondary:hover { color: var(--green-deep); border-bottom-color: var(--green-deep); gap: 10px; }
+  .hero-stat-row { display: flex; gap: 2.5rem; margin-top: 3.5rem; animation: fadeUp 0.8s 0.4s ease both; }
+  .hero-stat { position: relative; }
+  .hero-stat + .hero-stat::before { content: ''; position: absolute; left: -1.25rem; top: 15%; height: 70%; width: 1px; background: var(--border); }
+  .hero-stat .num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; color: var(--green-deep); line-height: 1; }
+  .hero-stat .label { font-size: 0.75rem; color: var(--stone); font-weight: 300; letter-spacing: 0.06em; margin-top: 4px; text-transform: uppercase; }
+  .hero-right { position: relative; height: 100vh; background: var(--green-deep); overflow: hidden; }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; opacity: 1; transition: transform 8s ease; }
+  .hero-right:hover .hero-img { transform: scale(1.05); }
+  .hero-right-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, var(--green-deep) 0%, rgba(15,43,15,0.2) 30%, transparent 60%); }
+  .hero-tag { position: absolute; bottom: 3rem; left: 2.5rem; background: rgba(15,43,15,0.65); backdrop-filter: blur(16px) saturate(1.5); border: 1px solid rgba(255,255,255,0.15); padding: 1.2rem 1.6rem; border-radius: var(--radius-md); color: white; animation: fadeUp 1s 0.6s ease both; }
+  .hero-tag .tag-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; margin-bottom: 4px; font-weight: 600; }
+  .hero-tag .tag-sub { font-size: 0.75rem; opacity: 0.65; letter-spacing: 0.06em; }
+
+  /* SECTIONS COMMON */
+  .section-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green-bright); font-weight: 500; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; }
+  .section-label::before { content: ''; width: 28px; height: 1.5px; background: var(--green-bright); }
+
+  /* QUE SON */
+  .section-intro { padding: 8rem 5rem; background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; position: relative; }
+  .section-intro::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--green-light), transparent); }
+  .section-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3.2rem); line-height: 1.12; color: var(--green-deep); margin-bottom: 1.5rem; font-weight: 400; }
+  .section-intro p { font-size: 1rem; line-height: 1.85; color: var(--stone); font-weight: 300; margin-bottom: 1.2rem; }
+  .growth-timeline { display: grid; grid-template-columns: repeat(4,1fr); background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-top: 1.5rem; box-shadow: var(--shadow-soft); }
+  .timeline-step { padding: 1.5rem 1.2rem; border-right: 1px solid var(--border); position: relative; transition: background 0.4s; }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-step.active { background: var(--green-pale); }
+  .timeline-step:hover { background: rgba(232,245,227,0.4); }
+  .timeline-step .step-days { font-size: 0.68rem; color: var(--stone); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .timeline-step .step-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--green-deep); margin-bottom: 4px; font-weight: 600; }
+  .timeline-step.active .step-name { color: var(--green-mid); font-weight: 700; }
+  .timeline-step .step-desc { font-size: 0.75rem; color: var(--stone); line-height: 1.5; }
+  .active-badge { position: absolute; top: 10px; right: 10px; background: var(--green-mid); color: white; font-size: 0.58rem; padding: 3px 10px; border-radius: 50px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+  .intro-visual { position: relative; }
+  .intro-img-wrap { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--shadow-soft); }
+  .intro-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 6s ease; }
+  .intro-img-wrap:hover img { transform: scale(1.06); }
+  .intro-float-card { position: absolute; bottom: -1.5rem; right: -1.5rem; background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.4rem 1.6rem; box-shadow: var(--shadow-hover); min-width: 190px; transition: transform 0.4s var(--transition-smooth); }
+  .intro-float-card:hover { transform: translateY(-4px); }
+  .float-num { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; color: var(--green-mid); line-height: 1; font-weight: 700; }
+  .float-label { font-size: 0.78rem; color: var(--stone); margin-top: 4px; line-height: 1.3; }
+
+  /* BENEFICIOS */
+  .section-benefits { padding: 8rem 5rem; background: var(--green-deep); color: white; position: relative; overflow: hidden; }
+  .section-benefits::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(74,140,63,0.12) 0%, transparent 60%); pointer-events: none; }
+  .section-benefits .section-label { color: var(--green-light); }
+  .section-benefits .section-label::before { background: var(--green-light); }
+  .benefits-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+  .benefits-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3.2rem); line-height: 1.12; color: white; max-width: 500px; font-weight: 400; }
+  .benefits-header h2 em { font-style: italic; color: var(--green-light); }
+  .benefits-header p { color: rgba(255,255,255,0.45); font-size: 0.85rem; max-width: 260px; text-align: right; line-height: 1.7; }
+  .benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.08); border-radius: var(--radius-lg); overflow: hidden; }
+  .benefit-card { background: rgba(15,43,15,0.6); padding: 2.5rem; transition: all 0.5s var(--transition-smooth); }
+  .benefit-card:hover { background: rgba(45,90,39,0.5); transform: translateY(-2px); }
+  .benefit-icon { width: 52px; height: 52px; margin-bottom: 1.5rem; background: rgba(168,213,162,0.1); border: 1px solid rgba(168,213,162,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.4s; }
+  .benefit-card:hover .benefit-icon { background: rgba(168,213,162,0.2); border-color: rgba(168,213,162,0.3); transform: scale(1.05); }
+  .benefit-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; color: white; margin-bottom: 0.8rem; font-weight: 600; }
+  .benefit-card p { font-size: 0.88rem; line-height: 1.75; color: rgba(255,255,255,0.55); font-weight: 300; }
+  .benefit-stat { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.73rem; color: var(--green-light); letter-spacing: 0.02em; }
+
+  /* VARIEDADES */
+  .section-productos { padding: 8rem 5rem; background: var(--warm-white); }
+  .productos-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+  .productos-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3.2rem); color: var(--green-deep); line-height: 1.12; font-weight: 400; }
+  .productos-header p { font-size: 0.85rem; color: var(--stone); max-width: 280px; text-align: right; line-height: 1.7; font-weight: 300; }
+  .productos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; }
+  .producto-card { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); transition: all 0.5s var(--transition-smooth); background: white; position: relative; }
+  .producto-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+  .producto-card.proximamente { opacity: 0.6; pointer-events: none; }
+  .producto-card.proximamente .producto-header { filter: grayscale(0.5); }
+  .proximamente-badge { position: absolute; top: 14px; right: 14px; z-index: 5; background: rgba(28,28,26,0.85); color: white; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: 50px; font-weight: 500; backdrop-filter: blur(6px); }
+  .producto-header { padding: 2rem; position: relative; min-height: 170px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.5s; }
+  .producto-name-vertical { position: absolute; left: 1.2rem; top: 1.2rem; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-size: 2.2rem; font-weight: 700; letter-spacing: 0.05em; opacity: 0.2; color: white; font-family: 'Outfit', sans-serif; }
+  .producto-badge { align-self: flex-start; margin-left: 3.5rem; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); padding: 0.3rem 0.7rem; border-radius: 50px; font-size: 0.7rem; color: white; text-transform: uppercase; font-weight: 500; letter-spacing: 0.1em; }
+  .producto-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: white; font-weight: 700; margin-left: 3.5rem; }
+  .producto-body { padding: 1.5rem; }
+  .producto-sabor { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--stone); margin-bottom: 1rem; }
+  .producto-sabor::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .producto-nutrients { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.2rem; }
+  .nutrient-tag { background: var(--green-pale); color: var(--green-mid); border: 1px solid var(--green-light); padding: 0.28rem 0.7rem; border-radius: 50px; font-size: 0.7rem; font-weight: 500; transition: all 0.3s; }
+  .nutrient-tag:hover { background: var(--green-mid); color: white; border-color: var(--green-mid); }
+  .producto-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--stone); }
+  .producto-meta strong { color: var(--green-deep); }
+
+  /* CIENCIA */
+  .section-science { padding: 5rem; background: linear-gradient(135deg, var(--amber-light) 0%, #f0d080 100%); display: flex; align-items: center; gap: 6rem; position: relative; overflow: hidden; }
+  .section-science::after { content: '40×'; position: absolute; right: -40px; top: 50%; transform: translateY(-50%); font-family: 'Cormorant Garamond', serif; font-size: 20rem; font-weight: 700; color: rgba(15,43,15,0.03); pointer-events: none; }
+  .science-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(5rem,10vw,9rem); line-height: 0.9; color: var(--green-deep); flex-shrink: 0; font-weight: 700; position: relative; }
+  .science-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: var(--green-deep); margin-bottom: 1rem; line-height: 1.2; font-weight: 400; }
+  .science-text p { font-size: 0.92rem; line-height: 1.85; color: var(--green-deep); max-width: 560px; opacity: 0.7; font-weight: 300; }
+  .science-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .sci-badge { background: rgba(15,43,15,0.08); border: 1px solid rgba(15,43,15,0.15); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.78rem; color: var(--green-deep); font-weight: 500; transition: all 0.3s; }
+  .sci-badge:hover { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+
+  /* COMO USAR */
+  .section-uses { padding: 8rem 5rem; background: var(--warm-white); }
+  .uses-header { text-align: center; margin-bottom: 4rem; }
+  .uses-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3.2rem); color: var(--green-deep); margin-bottom: 1rem; font-weight: 400; }
+  .uses-header p { font-size: 0.95rem; color: var(--stone); max-width: 560px; margin: 0 auto; font-weight: 300; line-height: 1.8; }
+  .uses-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .use-card { background: var(--cream); border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border); transition: all 0.5s var(--transition-smooth); }
+  .use-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+  .use-card.featured { background: var(--green-deep); color: white; grid-row: span 2; display: flex; flex-direction: column; justify-content: flex-end; min-height: 340px; background-image: url('Images/00_Ensalada.png'); background-size: cover; background-position: center; position: relative; overflow: hidden; }
+  .use-card.featured::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,58,26,0.95) 40%, transparent); }
+  .use-card.featured .use-content { position: relative; z-index: 1; }
+  .use-card.featured h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; margin-bottom: 0.6rem; }
+  .use-card.featured p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }
+  .use-img { height: 120px; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; background: var(--green-pale); }
+  .use-img img { width: 100%; height: 100%; object-fit: cover; }
+  .use-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--green-deep); margin-bottom: 0.5rem; }
+  .use-card p { font-size: 0.88rem; color: var(--stone); line-height: 1.6; font-weight: 300; }
+
+  /* CONSERVAR */
+  .section-care { padding: 8rem 5rem; background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .section-care h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3vw,2.8rem); color: var(--green-deep); margin-bottom: 1.5rem; line-height: 1.12; font-weight: 400; }
+  .section-care > div:first-child > p { font-size: 0.95rem; line-height: 1.85; color: var(--stone); font-weight: 300; }
+  .care-tips { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .care-tip { display: flex; gap: 1.2rem; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.3rem 1.5rem; transition: all 0.4s var(--transition-smooth); }
+  .care-tip:hover { border-color: var(--green-light); transform: translateX(6px); box-shadow: var(--shadow-soft); }
+  .care-tip-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .care-tip h4 { font-size: 0.95rem; color: var(--green-deep); font-weight: 500; margin-bottom: 4px; }
+  .care-tip p { font-size: 0.85rem; color: var(--stone); line-height: 1.5; font-weight: 300; }
+  .care-img { border-radius: 24px; overflow: hidden; aspect-ratio: 3/4; position: sticky; top: 7rem; }
+  .care-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* FUTURO */
+  .section-future { padding: 8rem 5rem; background: url('Images/00_Produccion.png') center/cover no-repeat; text-align: center; position: relative; overflow: hidden; }
+  .section-future::before { content: ''; position: absolute; inset: 0; background: rgba(15,43,15,0.82); pointer-events: none; }
+  .section-future > * { position: relative; z-index: 1; }
+  .section-future .section-label { color: var(--green-pale); justify-content: center; }
+  .section-future .section-label::before { background: var(--green-pale); }
+  .section-future h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); color: white; max-width: 720px; margin: 0 auto 1.5rem; line-height: 1.08; font-weight: 400; }
+  .section-future h2 em { font-style: italic; color: var(--green-pale); }
+  .section-future p { font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 580px; margin: 0 auto; font-weight: 300; line-height: 1.85; }
+  .future-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 4rem; }
+  .future-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 2.5rem; text-align: left; transition: all 0.5s var(--transition-smooth); }
+  .future-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
+  .future-card .fc-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--green-pale); font-weight: 700; line-height: 1; margin-bottom: 0.8rem; }
+  .future-card h4 { font-size: 1rem; color: white; margin-bottom: 0.5rem; font-weight: 500; }
+  .future-card p { font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.65; font-weight: 300; }
+
+  /* KIT */
+  .section-kit { padding: 8rem 5rem; background: var(--warm-white); }
+  .section-kit .section-header { text-align: center; margin-bottom: 4rem; }
+  .section-kit h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3.2rem); color: var(--green-deep); margin-bottom: 1rem; font-weight: 400; }
+  .section-kit .section-header p { font-size: 1rem; color: var(--stone); max-width: 560px; margin: 0 auto; font-weight: 300; line-height: 1.7; }
+  .kit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem; }
+  .kit-includes { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+  .kit-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; background: var(--green-pale); border-radius: 12px; border: 1px solid var(--green-light); }
+  .kit-item span:first-child { font-size: 1.3rem; flex-shrink: 0; }
+  .kit-item-title { font-size: 0.9rem; font-weight: 500; color: var(--green-deep); }
+  .kit-item-sub { font-size: 0.8rem; color: var(--stone); }
+  .kit-stats { display: flex; gap: 2rem; margin-top: 2rem; }
+  .kit-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--green-mid); font-weight: 700; line-height: 1; }
+  .kit-stat-lbl { font-size: 0.75rem; color: var(--stone); }
+  .kit-img { border-radius: 24px; overflow: hidden; aspect-ratio: 4/3; }
+  .kit-img img { width: 100%; height: 100%; object-fit: cover; }
+  .kit-steps { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; margin-bottom: 2.5rem; }
+  .kit-step { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem 1.2rem; text-align: center; transition: all 0.4s var(--transition-smooth); }
+  .kit-step:hover { transform: translateY(-5px); border-color: var(--green-light); box-shadow: var(--shadow-soft); }
+  .kit-step.last { background: var(--green-deep); border-color: var(--green-deep); }
+  .kit-step-num { width: 40px; height: 40px; background: var(--green-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; }
+  .kit-step.last .kit-step-num { background: var(--green-bright); }
+  .kit-step h4 { font-size: 0.9rem; color: var(--green-deep); font-weight: 500; margin-bottom: 0.5rem; }
+  .kit-step.last h4 { color: white; }
+  .kit-step p { font-size: 0.78rem; color: var(--stone); line-height: 1.5; font-weight: 300; }
+  .kit-step.last p { color: rgba(255,255,255,0.65); }
+
+  /* SUSCRIPCIÓN */
+  .section-suscripcion { padding: 8rem 5rem; background: linear-gradient(175deg, var(--green-deep) 0%, #0a1f0a 100%); color: white; position: relative; overflow: hidden; }
+  .section-suscripcion::before { content: ''; position: absolute; bottom: -200px; left: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168,213,162,0.06) 0%, transparent 60%); pointer-events: none; }
+  .section-suscripcion .section-label { color: var(--green-light); }
+  .section-suscripcion .section-label::before { background: var(--green-light); }
+  .sus-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+  .sus-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,3rem); color: white; line-height: 1.15; max-width: 520px; }
+  .sus-header h2 em { font-style: italic; color: var(--green-light); }
+  .sus-header p { color: rgba(255,255,255,0.5); font-size: 0.9rem; max-width: 240px; text-align: right; line-height: 1.6; }
+  .sus-price-pill { display: inline-flex; align-items: baseline; gap: 6px; background: rgba(168,213,162,0.15); border: 1px solid rgba(168,213,162,0.3); padding: 0.6rem 1.4rem; border-radius: 50px; margin-bottom: 2rem; }
+  .sus-price-pill .price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--green-light); font-weight: 700; line-height: 1; }
+  .sus-price-pill .price-sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+
+  /* Timeline de semanas */
+  .sus-timeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-bottom: 4rem; position: relative; }
+  .sus-timeline::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 2px; background: rgba(168,213,162,0.25); z-index: 0; }
+  .sus-week { text-align: center; position: relative; z-index: 1; }
+  .sus-week-num { width: 56px; height: 56px; border-radius: 50%; background: rgba(168,213,162,0.12); border: 2px solid rgba(168,213,162,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--green-light); transition: all 0.3s; }
+  .sus-week:hover .sus-week-num { background: rgba(168,213,162,0.25); border-color: var(--green-light); transform: scale(1.1); }
+  .sus-week-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); margin-bottom: 0.5rem; }
+  .sus-week-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: white; margin-bottom: 0.4rem; }
+  .sus-week-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.5; font-weight: 300; }
+  .sus-week-tag { display: inline-block; background: rgba(168,213,162,0.15); border: 1px solid rgba(168,213,162,0.25); padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.7rem; color: var(--green-light); margin-top: 0.5rem; }
+
+  /* Beneficios suscripción */
+  .sus-benefits { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 3rem; }
+  .sus-benefit { display: flex; align-items: flex-start; gap: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.4rem; transition: background 0.3s; }
+  .sus-benefit:hover { background: rgba(255,255,255,0.08); }
+  .sus-benefit-icon { width: 40px; height: 40px; background: rgba(168,213,162,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .sus-benefit h4 { font-size: 0.95rem; color: white; font-weight: 500; margin-bottom: 0.3rem; }
+  .sus-benefit p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; font-weight: 300; }
+
+  /* Resumen precio */
+  .sus-pricing { background: rgba(168,213,162,0.08); border: 1px solid rgba(168,213,162,0.2); border-radius: 20px; padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .sus-pricing-left { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sus-pricing-left span { font-size: 0.8rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; }
+  .sus-pricing-left strong { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: white; font-weight: 700; line-height: 1; }
+  .sus-pricing-left em { font-style: normal; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+  .sus-pricing-details { display: flex; gap: 2rem; }
+  .sus-detail { text-align: center; }
+  .sus-detail .d-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--green-light); font-weight: 700; line-height: 1; }
+  .sus-detail .d-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 3px; }
+  .sus-pricing-cta { display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+
+  /* CTA */
+  .section-cta { padding: 8rem 5rem; background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .cta-left h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem,4vw,3.4rem); color: var(--green-deep); line-height: 1.08; margin-bottom: 1.5rem; font-weight: 400; }
+  .cta-left h2 em { font-style: italic; color: var(--green-bright); }
+  .cta-left p { font-size: 0.95rem; color: var(--stone); line-height: 1.8; font-weight: 300; max-width: 460px; }
+  .cta-card { background: var(--green-deep); border-radius: var(--radius-lg); padding: 3rem; color: white; box-shadow: 0 24px 80px rgba(15,43,15,0.25); }
+  .cta-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; margin-bottom: 0.8rem; font-weight: 600; }
+  .cta-card p { font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-bottom: 2rem; line-height: 1.7; }
+  .cta-contact { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .cta-contact-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 0.9rem 1.3rem; text-decoration: none; color: white; transition: all 0.3s var(--transition-smooth); }
+  .cta-contact-item:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.15); transform: translateX(4px); }
+  .ci-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); display: block; }
+  .ci-value { font-size: 0.95rem; font-weight: 500; }
+  .btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: 10px; background: #25d366; color: white; text-decoration: none; padding: 1rem 1.5rem; border-radius: 50px; font-weight: 500; font-size: 1rem; transition: transform 0.2s, filter 0.2s; }
+  .btn-whatsapp:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+  /* FOOTER */
+  footer { padding: 3.5rem 5rem; background: var(--green-deep); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; border-top: 1px solid rgba(168,213,162,0.08); }
+  .footer-logo { font-family: 'Josefin Sans', sans-serif; font-size: 0.95rem; color: white; display: flex; align-items: center; gap: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; }
+  .footer-logo span { font-size: 0.6rem; color: rgba(255,255,255,0.35); letter-spacing: 0.15em; text-transform: uppercase; font-family: 'Outfit', sans-serif; font-weight: 300; }
+  footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+  .footer-links { display: flex; gap: 1.8rem; }
+  .footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.3s; letter-spacing: 0.02em; }
+  .footer-links a:hover { color: var(--green-light); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth); }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth); }
+  .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,58,26,0.6); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-box { background: var(--warm-white); border-radius: 24px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; position: relative; }
+  .modal-header { background: var(--green-deep); border-radius: 24px 24px 0 0; padding: 2rem 2.5rem 1.5rem; position: relative; }
+  .modal-close { position: absolute; top: 1.2rem; right: 1.5rem; background: rgba(255,255,255,0.15); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+  .modal-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; margin-bottom: 1rem; }
+  .modal-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+  .modal-brand span { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .step-indicators { display: flex; align-items: center; gap: 0; }
+  .step-ind { display: flex; align-items: center; gap: 8px; }
+  .step-ind .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--green-bright); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: white; flex-shrink: 0; }
+  .step-ind.inactive { opacity: 0.4; }
+  .step-ind.inactive .step-circle { background: transparent; border: 2px solid rgba(255,255,255,0.4); }
+  .step-ind span { font-size: 0.8rem; color: white; font-weight: 500; }
+  .step-divider { flex: 1; height: 1px; background: rgba(255,255,255,0.2); margin: 0 0.8rem; }
+  .modal-body { padding: 2rem 2.5rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--green-deep); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .form-group input, .form-group select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; background: white; font-family: 'Outfit', sans-serif; outline: none; transition: border-color 0.2s; color: var(--charcoal); }
+  .form-group input:focus, .form-group select:focus { border-color: var(--green-mid); }
+  .dias-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0.5rem; }
+  .dia-btn { padding: 0.6rem 0.3rem; border: 1px solid var(--border); border-radius: 8px; background: white; font-size: 0.78rem; cursor: pointer; font-family: 'Outfit', sans-serif; color: var(--stone); transition: all 0.2s; }
+  .dia-btn.selected { background: var(--green-pale); border-color: var(--green-mid); color: var(--green-mid); font-weight: 500; }
+  .semana-row { display: grid; grid-template-columns: 100px 1fr; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+  .semana-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--green-deep); }
+  .semana-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cp-wrapper { position: relative; }
+  .cp-wrapper input { padding-right: 3rem; }
+  .cp-feedback { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .cp-feedback.valid { opacity: 1; color: var(--green-mid); }
+  .cp-feedback.invalid { opacity: 1; color: #c0185a; }
+  .cp-zone-msg { font-size: 0.8rem; margin-top: 0.4rem; padding: 0; max-height: 0; overflow: hidden; transition: all 0.35s var(--transition-smooth); line-height: 1.5; }
+  .cp-zone-msg.show-valid { max-height: 60px; padding: 0.5rem 0.8rem; color: var(--green-mid); background: rgba(74,140,63,0.08); border-radius: 8px; border: 1px solid rgba(74,140,63,0.15); }
+  .cp-zone-msg.show-invalid { max-height: 80px; padding: 0.6rem 0.8rem; color: #c0185a; background: #fff0f0; border-radius: 8px; border: 1px solid #ffcccc; }
+  .form-group input.input-valid { border-color: var(--green-mid); }
+  .form-group input.input-invalid { border-color: #c0185a; }
+  .form-error { display: none; background: #fff0f0; border: 1px solid #ffcccc; border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: #c0185a; margin-bottom: 1rem; }
+  .btn-full { width: 100%; padding: 1rem; border: none; border-radius: 50px; font-size: 1rem; font-weight: 500; font-family: 'Outfit', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s; }
+  .btn-full.green { background: var(--green-mid); color: white; }
+  .btn-full.green:hover { background: var(--green-deep); }
+  .btn-full.outline { background: transparent; color: var(--stone); border: 1px solid var(--border); margin-top: 1rem; }
+  .btn-full.outline:hover { background: var(--cream); }
+  .order-summary { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: 14px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
+  .order-summary-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-mid); font-weight: 500; margin-bottom: 0.8rem; }
+  .order-summary-text { font-size: 0.88rem; color: var(--green-deep); line-height: 1.7; }
+  .order-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--green-light); margin-top: 0.8rem; padding-top: 0.8rem; }
+  .order-total span { font-size: 0.88rem; color: var(--stone); }
+  .order-total strong { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--green-deep); font-weight: 700; }
+  .btn-mp-pago:hover { background: #007bb5 !important; box-shadow: 0 6px 20px rgba(0,158,227,0.4) !important; transform: translateY(-1px); }
+  .mp-note { display: none; background: #fff9e6; border: 1px solid #f5c842; border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1rem; font-size: 0.82rem; color: #633806; line-height: 1.6; }
+  .form-confirm { display: none; padding: 3rem 2.5rem; text-align: center; }
+  .confirm-icon { width: 64px; height: 64px; background: var(--green-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; }
+  .form-confirm h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--green-deep); margin-bottom: 0.8rem; }
+  .form-confirm p { font-size: 0.9rem; color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; }
+
+  /* MOBILE NAV */
+  .mobile-nav-overlay { display: none; position: fixed; inset: 0; z-index: 99; background: rgba(250,249,246,0.97); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .mobile-nav-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+  .mobile-nav-overlay a { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--green-deep); text-decoration: none; font-weight: 400; transition: color 0.3s; }
+  .mobile-nav-overlay a:hover { color: var(--green-mid); }
+  .mobile-nav-overlay .nav-cta { font-family: 'Outfit', sans-serif; font-size: 1rem; background: var(--green-mid); color: white; padding: 0.8rem 2rem; border-radius: 50px; margin-top: 1rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero::before, .hero::after { display: none; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .section-intro, .section-care, .section-cta, .kit-grid { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .section-benefits, .section-uses, .section-science, .section-future, .section-productos, .section-kit { padding: 4rem 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
+    nav.scrolled { padding: 0.7rem 1.5rem; }
+    nav ul { display: none; }
+    .hamburger { display: flex; }
+    .benefits-grid, .uses-grid, .future-grid, .productos-grid { grid-template-columns: 1fr; }
+    .kit-steps { grid-template-columns: repeat(2,1fr); }
+    .sus-timeline { grid-template-columns: repeat(2,1fr); gap: 2rem; }
+    .sus-timeline::before { display: none; }
+    .sus-benefits { grid-template-columns: 1fr; }
+    .sus-pricing { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .sus-pricing-cta { align-items: flex-start; width: 100%; }
+    .sus-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .sus-header p { text-align: left; }
+    .section-suscripcion { padding: 4rem 1.5rem; }
+    .benefits-header, .productos-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .benefits-header p, .productos-header p { text-align: left; }
+    .section-science { flex-direction: column; gap: 2rem; }
+    .section-science::after { display: none; }
+    .growth-timeline { grid-template-columns: repeat(2,1fr); }
+    .use-card.featured { grid-row: span 1; min-height: 260px; }
+    footer { padding: 2.5rem 1.5rem; }
+    .hero h1 { font-size: 2.6rem; }
+    .hero-stat-row { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <img src="Images/ISOTIPO_VERDE_nobg.png" alt="Cargando..." class="loader-logo">
+  <div class="loader-bar"></div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="Images/ISOTIPO_VERDE_nobg.png" alt="City Roots Farm" style="height:36px;width:auto;">
+    <div class="nav-logo-text">CITYROOTS.FARM</div>
+  </a>
+  <ul>
+    <li><a href="#que-son">¿Qué son?</a></li>
+    <li><a href="#suscripcion">Suscripción</a></li>
+    <li><a href="#variedades">Variedades</a></li>
+    <li><a href="#kit">Kit de cultivo</a></li>
+    <li><a href="#" class="nav-cta" onclick="event.preventDefault();openModal()">Ordenar ahora</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav-overlay" id="mobile-nav">
+  <a href="#que-son" onclick="toggleMobileNav()">¿Qué son?</a>
+  <a href="#suscripcion" onclick="toggleMobileNav()">Suscripción</a>
+  <a href="#variedades" onclick="toggleMobileNav()">Variedades</a>
+  <a href="#kit" onclick="toggleMobileNav()">Kit de cultivo</a>
+  <a href="#" class="nav-cta" onclick="event.preventDefault();toggleMobileNav();openModal()">Ordenar ahora</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div style="margin-bottom:1.5rem;animation:fadeUp 0.6s ease both;">
+      <img src="Images/LOGO_VERDE_nobg.png" alt="City Roots Farm Logo" style="height:160px;width:auto;">
+    </div>
+    <div class="hero-eyebrow">Granja urbana · Monterrey, N.L.</div>
+    <h1>Pequeños,<br><em>increíblemente</em><br>nutritivos.</h1>
+    <p class="hero-sub">Cultivamos microgreens frescos en ambiente controlado. Cosechados semanalmente y entregados en tu puerta con hasta 40× más nutrientes que el vegetal adulto.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+        Suscribirme
+      </button>
+      <a href="#que-son" class="btn-secondary">Conocer más →</a>
+    </div>
+    <p style="font-size:0.75rem;color:var(--stone);margin-top:1rem;font-weight:300;opacity:0.8;animation:fadeUp 0.8s 0.5s ease both;">Producto fresco disponible solo en zona metropolitana de Monterrey</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">40×</div><div class="label">más nutrientes</div></div>
+      <div class="hero-stat"><div class="num">7-14</div><div class="label">días de cosecha</div></div>
+      <div class="hero-stat"><div class="num">$399</div><div class="label">MXN / mes</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img" src="Images/Principal_.png" alt="Microgreens frescos City Roots Farm">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-tag">
+      <div class="tag-title">Cosecha semanal</div>
+      <div class="tag-sub">Ambiente controlado · MTY</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUE SON -->
+<section class="section-intro" id="que-son">
+  <div class="reveal">
+    <div class="section-label">¿Qué son los microgreens?</div>
+    <h2>Vegetales en su <em style="font-style:italic;color:var(--green-bright);">segunda etapa</em> de crecimiento</h2>
+    <p>Son plantas cosechadas justo cuando forman raíces, tallo y sus primeras hojas (cotiledones). En ese momento los nutrientes están en su máxima concentración.</p>
+    <p>No son brotes ni germinados — son un producto diferente, más completo y con mayor contenido de fibra, vitaminas y antioxidantes.</p>
+    <div class="growth-timeline">
+      <div class="timeline-step">
+        <div class="step-days">1–7 días</div>
+        <div class="step-name">Germinado</div>
+        <div class="step-desc">Raíz y semilla, sin hojas verdes</div>
+      </div>
+      <div class="timeline-step active">
+        <div class="active-badge">Nuestro punto</div>
+        <div class="step-days">7–14 días</div>
+        <div class="step-name">Microgreen</div>
+        <div class="step-desc">Máximo pico de nutrientes</div>
+      </div>
+      <div class="timeline-step">
+        <div class="step-days">2–3 semanas</div>
+        <div class="step-name">Baby green</div>
+        <div class="step-desc">Hojas jóvenes formadas</div>
+      </div>
+      <div class="timeline-step">
+        <div class="step-days">1–2 meses</div>
+        <div class="step-name">Vegetal adulto</div>
+        <div class="step-desc">Planta completamente desarrollada</div>
+      </div>
+    </div>
+  </div>
+  <div class="intro-visual reveal">
+    <div class="intro-img-wrap">
+      <img src="Images/Portada.png" alt="Mano sosteniendo microgreens frescos">
+    </div>
+  </div>
+</section>
+
+<!-- SUSCRIPCIÓN -->
+<section class="section-suscripcion" id="suscripcion">
+  <div class="sus-header reveal">
+    <div>
+      <div class="section-label">Cómo funciona</div>
+      <h2>Tu dosis semanal de<br><em>microgreens frescos</em></h2>
+    </div>
+    <p>Sin complicaciones. Sin bodega. Solo frescura en tu puerta cada semana.</p>
+  </div>
+
+  <!-- Timeline 4 semanas -->
+  <div class="sus-timeline reveal">
+    <div class="sus-week">
+      <div class="sus-week-num">1</div>
+      <div class="sus-week-label">Semana 1</div>
+      <div class="sus-week-title">Tu primer domo</div>
+      <div class="sus-week-desc">Recibes tu primera variedad elegida. Fresca, cosechada esa semana.</div>
+      <span class="sus-week-tag">Entrega en casa</span>
+    </div>
+    <div class="sus-week">
+      <div class="sus-week-num">2</div>
+      <div class="sus-week-label">Semana 2</div>
+      <div class="sus-week-title">Segunda variedad</div>
+      <div class="sus-week-desc">Exploras una nueva variedad. Diferente sabor, mismos nutrientes máximos.</div>
+      <span class="sus-week-tag">Entrega en casa</span>
+    </div>
+    <div class="sus-week">
+      <div class="sus-week-num">3</div>
+      <div class="sus-week-label">Semana 3</div>
+      <div class="sus-week-title">Tercer domo</div>
+      <div class="sus-week-desc">Sigues descubriendo. Ya sabes cuál es tu favorita y la integras a tus platillos.</div>
+      <span class="sus-week-tag">Entrega en casa</span>
+    </div>
+    <div class="sus-week">
+      <div class="sus-week-num">4</div>
+      <div class="sus-week-label">Semana 4</div>
+      <div class="sus-week-title">Cierre del mes</div>
+      <div class="sus-week-desc">Tu último domo del mes. ¿Listo para renovar y seguir eligiendo tus variedades?</div>
+      <span class="sus-week-tag">Renovable</span>
+    </div>
+  </div>
+
+  <!-- Beneficios -->
+  <div class="sus-benefits reveal">
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">🗓️</div>
+      <div>
+        <h4>Tú eliges tu día</h4>
+        <p>Seleccionas el día de la semana que más te convenga para recibir tu entrega, de lunes a viernes.</p>
+      </div>
+    </div>
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">🌱</div>
+      <div>
+        <h4>Variedad a tu gusto</h4>
+        <p>Elige una variedad diferente para cada una de las 4 semanas o repite tu favorita — tú decides.</p>
+      </div>
+    </div>
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">✂️</div>
+      <div>
+        <h4>Cosechado al momento</h4>
+        <p>Cada domo se cosecha en la misma semana de entrega para garantizar el máximo de nutrientes y sabor.</p>
+      </div>
+    </div>
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">📦</div>
+      <div>
+        <h4>Empaque sustentable</h4>
+        <p>Charola de bagazo de caña biodegradable. Listo para consumir, sin pesticidas ni contaminantes.</p>
+      </div>
+    </div>
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">📍</div>
+      <div>
+        <h4>Entrega en Monterrey</h4>
+        <p>Producción y entrega local. Cero kilómetros innecesarios, máxima frescura, mínima huella de carbono.</p>
+      </div>
+    </div>
+    <div class="sus-benefit">
+      <div class="sus-benefit-icon">🔁</div>
+      <div>
+        <h4>Renovable cada mes</h4>
+        <p>Al terminar tus 4 semanas puedes renovar fácilmente y seguir eligiendo tus variedades favoritas.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing summary -->
+  <div class="sus-pricing reveal">
+    <div class="sus-pricing-left">
+      <span>Suscripción mensual</span>
+      <strong>$399 <em style="font-size:1.1rem;">MXN</em></strong>
+      <em>4 domos · 1 entrega por semana · tú eliges la variedad</em>
+    </div>
+    <div class="sus-pricing-details">
+      <div class="sus-detail">
+        <div class="d-num">4</div>
+        <div class="d-lbl">semanas</div>
+      </div>
+      <div class="sus-detail">
+        <div class="d-num">4</div>
+        <div class="d-lbl">domos frescos</div>
+      </div>
+      <div class="sus-detail">
+        <div class="d-num">50g</div>
+        <div class="d-lbl">por domo</div>
+      </div>
+      <div class="sus-detail">
+        <div class="d-num">0</div>
+        <div class="d-lbl">agroquímicos</div>
+      </div>
+    </div>
+    <div class="sus-pricing-cta">
+      <button class="btn-primary" onclick="openModal()" style="white-space:nowrap;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+        Suscribirme ahora
+      </button>
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);text-align:right;">Renovable · Sin permanencia</p>
+      <p style="font-size:0.7rem;color:rgba(255,255,255,0.35);text-align:right;margin-top:4px;">Producto fresco solo disponible en Monterrey y área metropolitana</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- BENEFICIOS -->
+<section class="section-benefits">
+  <div class="benefits-header reveal">
+    <div>
+      <div class="section-label">Por qué consumirlos</div>
+      <h2>Tres razones para <em>empezar hoy</em></h2>
+    </div>
+    <p>Respaldado por investigaciones de la Universidad de Maryland y el USDA.</p>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">🌿</div>
+      <h3>Super nutritivos</h3>
+      <p>Concentración notablemente mayor de vitaminas, minerales y antioxidantes que sus equivalentes adultos — incluyendo vitaminas C, E, K y carotenoides.</p>
+      <div class="benefit-stat">↑ Hasta 40× más vitamina E que la col roja adulta</div>
+    </div>
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">🍽️</div>
+      <h3>Son deliciosos</h3>
+      <p>Cada variedad tiene un perfil de sabor intenso — versión concentrada de su vegetal de origen. Desde picante (rábano, mostaza) hasta dulce y a nuez (girasol, chícharo).</p>
+      <div class="benefit-stat">↑ Sabor más intenso que el vegetal adulto</div>
+    </div>
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">📍</div>
+      <h3>Frescura local</h3>
+      <p>Cultivados en Monterrey, cosechados semanalmente y entregados frescos. Sin cadenas largas de distribución que destruyen nutrientes y sabor.</p>
+      <div class="benefit-stat">↑ Cosechado y entregado en la misma semana</div>
+    </div>
+  </div>
+</section>
+
+<!-- VARIEDADES -->
+<section class="section-productos" id="variedades">
+  <div class="productos-header reveal">
+    <div>
+      <div class="section-label">Nuestras variedades</div>
+      <h2>Cada variedad, un perfil<br>nutricional único</h2>
+    </div>
+    <p>50g por charola · Sin agroquímicos · Cultivado en sustrato estéril · 10–13 días de vida útil</p>
+  </div>
+  <div class="productos-grid">
+    <div class="producto-card reveal">
+      <div class="producto-header" style="background:#D4700A;">
+        <div class="producto-name-vertical">SPICYMIX</div>
+        <span class="producto-badge">Mix · 4 variedades</span>
+        <div class="producto-title">Spicy Mix</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#D4700A;">Intenso, ligeramente picante</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Sulforafano</span><span class="nutrient-tag">Vitamina C</span><span class="nutrient-tag">Vitamina K</span><span class="nutrient-tag">Calcio</span>
+        </div>
+        <div class="producto-meta"><span>Brócoli · Kale · Arúgula · Mostaza</span><strong>50g</strong></div>
+      </div>
+    </div>
+    <div class="producto-card reveal">
+      <div class="producto-header" style="background:#3a9e4a;">
+        <div class="producto-name-vertical">CHÍCHARO</div>
+        <span class="producto-badge">Dulce · Proteína</span>
+        <div class="producto-title">Chícharo</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#3a9e4a;">Dulce, fresco y herbal</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Vitamina C</span><span class="nutrient-tag">Proteína vegetal</span><span class="nutrient-tag">Hierro</span><span class="nutrient-tag">Potasio</span>
+        </div>
+        <div class="producto-meta"><span>Pisum sativum</span><strong>50g</strong></div>
+      </div>
+    </div>
+    <div class="producto-card proximamente reveal">
+      <span class="proximamente-badge">Próximamente</span>
+      <div class="producto-header" style="background:#0d8a8a;">
+        <div class="producto-name-vertical">BRÓCOLI</div>
+        <span class="producto-badge">Antioxidante</span>
+        <div class="producto-title">Brócoli</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#0d8a8a;">Suave, fresco, toque sutil de brócoli</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Sulforafano</span><span class="nutrient-tag">Vitamina C</span><span class="nutrient-tag">Vitamina K</span><span class="nutrient-tag">Zinc</span>
+        </div>
+        <div class="producto-meta"><span>Brassica oleracea</span><strong>50g</strong></div>
+      </div>
+    </div>
+    <div class="producto-card reveal">
+      <div class="producto-header" style="background:#b89a10;">
+        <div class="producto-name-vertical">GIRASOL</div>
+        <span class="producto-badge">Proteína · Omega 6</span>
+        <div class="producto-title">Girasol</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#b89a10;">Dulce, crujiente, toque a nuez</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Proteína 25–30%</span><span class="nutrient-tag">Vitamina E</span><span class="nutrient-tag">Magnesio</span><span class="nutrient-tag">Omega 6</span>
+        </div>
+        <div class="producto-meta"><span>Helianthus annuus black pearl</span><strong>50g</strong></div>
+      </div>
+    </div>
+    <div class="producto-card reveal">
+      <div class="producto-header" style="background:#c0185a;">
+        <div class="producto-name-vertical">RÁBANO</div>
+        <span class="producto-badge">Picante · Detox</span>
+        <div class="producto-title">Rábano</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#c0185a;">Picante, intenso y refrescante</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Vitamina C</span><span class="nutrient-tag">Glucosinolatos</span><span class="nutrient-tag">Potasio</span><span class="nutrient-tag">Folato</span>
+        </div>
+        <div class="producto-meta"><span>Raphanus sativus</span><strong>50g</strong></div>
+      </div>
+    </div>
+    <div class="producto-card proximamente reveal">
+      <span class="proximamente-badge">Próximamente</span>
+      <div class="producto-header" style="background:#c97c60;">
+        <div class="producto-name-vertical">MELÓN</div>
+        <span class="producto-badge">Hidratante · Dulce</span>
+        <div class="producto-title">Melón</div>
+      </div>
+      <div class="producto-body">
+        <div class="producto-sabor" style="color:#c97c60;">Dulce, fresco, toque afrutado</div>
+        <div class="producto-nutrients">
+          <span class="nutrient-tag">Hidratante 90%</span><span class="nutrient-tag">Vitamina A</span><span class="nutrient-tag">Carotenoides</span><span class="nutrient-tag">Potasio</span>
+        </div>
+        <div class="producto-meta"><span>Cucumis melo</span><strong>50g</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KIT DE CULTIVO -->
+<section class="section-kit" id="kit">
+  <div class="section-header reveal">
+    <div class="section-label" style="justify-content:center;">Kit de cultivo</div>
+    <h2>¡Cultívalo tú mismo!</h2>
+    <p>Vive la experiencia de sembrar, cosechar y probar el producto final. La mejor manera de conocer el valor de producir tus propios alimentos.</p>
+  </div>
+  <div class="kit-grid reveal">
+    <div>
+      <div class="section-label">¿Qué incluye?</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--green-deep);margin-bottom:1.5rem;line-height:1.2;">Todo lo que necesitas para tu primera cosecha</h3>
+      <div class="kit-includes">
+        <div class="kit-item"><span>🌱</span><div><div class="kit-item-title">Charola biodegradable</div><div class="kit-item-sub">Con base separada para drenaje</div></div></div>
+        <div class="kit-item"><span>🌿</span><div><div class="kit-item-title">Semillas premium seleccionadas</div><div class="kit-item-sub">Chícharo, Rábano o Spicy Mix</div></div></div>
+        <div class="kit-item"><span>🌍</span><div><div class="kit-item-title">Sustrato estéril</div><div class="kit-item-sub">Listo para usar, sin agroquímicos</div></div></div>
+        <div class="kit-item"><span>📖</span><div><div class="kit-item-title">Instrucciones impresas + QR</div><div class="kit-item-sub">Con video paso a paso incluido</div></div></div>
+      </div>
+      <div class="kit-stats">
+        <div><div class="kit-stat-num">3</div><div class="kit-stat-lbl">variedades</div></div>
+        <div><div class="kit-stat-num">10-15</div><div class="kit-stat-lbl">días a cosecha</div></div>
+        <div><div class="kit-stat-num">100%</div><div class="kit-stat-lbl">natural</div></div>
+      </div>
+    </div>
+    <div class="kit-img">
+      <img src="Images/00_KitdeCultivo.png" alt="Kit de cultivo City Roots Farm">
+    </div>
+  </div>
+  <h3 class="reveal" style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--green-deep);text-align:center;margin-bottom:2.5rem;">5 pasos para tu primera cosecha</h3>
+  <div class="kit-steps reveal">
+    <div class="kit-step"><div class="kit-step-num">1</div><h4>Sustrato</h4><p>Coloca el sustrato del sobre dentro de la charola de manera uniforme.</p></div>
+    <div class="kit-step"><div class="kit-step-num">2</div><h4>Semillas</h4><p>Esparce las semillas sobre todo el sustrato. No es necesario cubrirlas.</p></div>
+    <div class="kit-step"><div class="kit-step-num">3</div><h4>Germinación</h4><p>Riega 2 veces al día. Tapa para mantener oscuridad 4 días.</p></div>
+    <div class="kit-step"><div class="kit-step-num">4</div><h4>Producción</h4><p>Al quinto día coloca cerca de ventana con luz solar y observa la magia.</p></div>
+    <div class="kit-step last"><div class="kit-step-num">5</div><h4>Cosecha</h4><p>Corta con tijeras a la mitad del tallo y dale sabor a tu platillo favorito.</p></div>
+  </div>
+  <div class="reveal" style="text-align:center;">
+    <a href="https://wa.me/528117789996?text=%C2%A1Hola!%20Me%20interesa%20el%20Kit%20de%20Cultivo%20de%20microgreens%20%F0%9F%8C%B1%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener" class="btn-primary" style="display:inline-flex;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+      Quiero mi kit de cultivo
+    </a>
+    <p style="font-size:0.82rem;color:var(--stone);margin-top:1rem;font-weight:300;">Envíos a todo México · Recíbelo en tu puerta</p>
+  </div>
+</section>
+
+<!-- CIENCIA -->
+<section class="section-science">
+  <div class="science-num reveal">40×</div>
+  <div class="science-text reveal">
+    <h2>Hasta 40 veces más nutrientes que el vegetal adulto</h2>
+    <p>Un estudio del USDA y la Universidad de Maryland analizó 25 microvegetales y encontró concentraciones marcadamente más altas de vitaminas y carotenoides. Los microgreens de col roja tenían más de 40 veces el contenido de vitamina E.</p>
+    <div class="science-badges">
+      <span class="sci-badge">Calcio ×2</span><span class="sci-badge">Hierro ×1.9</span><span class="sci-badge">Manganeso ×9.3</span><span class="sci-badge">Zinc ×1.6</span><span class="sci-badge">Selenio ×5</span><span class="sci-badge">Vitamina E ×40</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMO USAR -->
+<section class="section-uses" id="uso">
+  <div class="uses-header reveal">
+    <div class="section-label" style="justify-content:center;">Cómo usarlos</div>
+    <h2>Versátiles. Fáciles. Deliciosos.</h2>
+    <p>Los microgreens se integran a casi cualquier platillo sin esfuerzo. Agregan color, volumen, textura y un extra de nutrientes en segundos.</p>
+  </div>
+  <div class="uses-grid">
+    <div class="use-card featured">
+      <div class="use-content">
+        <h3>En ensaladas y bowls</h3>
+        <p>Un puñado transforma cualquier ensalada. Combínalos con naranja, aguacate y nuez para una spring salad llena de vitaminas.</p>
+      </div>
+    </div>
+    <div class="use-card reveal">
+      <div class="use-img"><img src="Images/00_Guacamole.png" alt="Guacamole con microgreens"></div>
+      <h3>Guacamole con girasol</h3>
+      <p>Los microgreens de girasol le dan un sabor fresco a nuez que revoluciona el guacamole clásico.</p>
+    </div>
+    <div class="use-card reveal">
+      <div class="use-img"><img src="Images/00_Smoothie.png" alt="Smoothie verde con microgreens"></div>
+      <h3>Smoothies verdes</h3>
+      <p>Un manojo en tu licuadora suma vitaminas A, C, calcio y fibra sin cambiar el sabor de tu batido favorito.</p>
+    </div>
+    <div class="use-card reveal">
+      <div class="use-img"><img src="Images/00_Sandwich.png" alt="Sándwich con microgreens"></div>
+      <h3>Pizza, tacos y sándwiches</h3>
+      <p>Esparce sobre pizza caliente, úsalos en lugar de lechuga o agrégalos a tus tacos como garnish gourmet.</p>
+    </div>
+    <div class="use-card reveal">
+      <div class="use-img"><img src="Images/00_Hotcakes.png" alt="Hotcakes con microgreens"></div>
+      <h3>Hotcakes de chícharo</h3>
+      <p>Mezcla microgreens de chícharo en la masa para hotcakes proteínicos con un hermoso color verde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURO -->
+<section class="section-future">
+  <div class="section-label reveal">Por qué importa</div>
+  <h2 class="reveal">El futuro de la alimentación<br><em>está en tus manos</em></h2>
+  <p class="reveal">La agricultura urbana en ambiente controlado optimiza el rendimiento, reduce el uso de agua y acerca la producción de alimentos frescos a la ciudad.</p>
+  <div class="future-grid">
+    <div class="future-card reveal">
+      <div class="fc-num">90%</div>
+      <h4>Menos agua</h4>
+      <p>Comparado con la agricultura tradicional, los sistemas de cultivo controlado usan hasta 90% menos agua.</p>
+    </div>
+    <div class="future-card reveal">
+      <div class="fc-num">0km</div>
+      <h4>Huella de carbono mínima</h4>
+      <p>Producción local en Monterrey. Sin largas cadenas de transporte que desperdician energía y reducen nutrientes.</p>
+    </div>
+    <div class="future-card reveal">
+      <div class="fc-num">52</div>
+      <h4>Cosechas al año</h4>
+      <p>Los microgreens se cosechan cada 7-14 días, dando hasta 52 ciclos de producción frescos por año.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta" id="contacto">
+  <div class="cta-left">
+    <div class="section-label reveal">Empieza hoy</div>
+    <h2 class="reveal">¿Listo para probar algo <em>increíble?</em></h2>
+    <p class="reveal">Contáctanos por WhatsApp o correo. Te decimos qué variedades tenemos disponibles esta semana, precios y cómo recibir tu primera entrega fresca en Monterrey.</p>
+  </div>
+  <div class="cta-card reveal">
+    <h3>Contáctanos</h3>
+    <p>Respondemos rápido. Cuéntanos qué necesitas.</p>
+    <div class="cta-contact">
+      <a href="https://wa.me/528117789996" target="_blank" class="cta-contact-item">
+        <span>📱</span><div><span class="ci-label">WhatsApp</span><span class="ci-value">811 778 9996</span></div>
+      </a>
+      <a href="mailto:cityrootsmty@gmail.com" class="cta-contact-item">
+        <span>✉️</span><div><span class="ci-label">Correo</span><span class="ci-value">cityrootsmty@gmail.com</span></div>
+      </a>
+      <a href="https://www.instagram.com/cityroots.farm/" target="_blank" class="cta-contact-item">
+        <span>📸</span><div><span class="ci-label">Instagram</span><span class="ci-value">@cityroots.farm</span></div>
+      </a>
+    </div>
+    <button class="btn-primary btn-full" onclick="openModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+      Suscribirme ahora — $399 MXN/mes
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Images/ISOTIPO_VERDE_nobg.png" alt="City Roots Farm" style="height:28px;width:auto;filter:brightness(1.8);">
+    <div>CITYROOTS.FARM</div>
+  </div>
+  <p>© 2025 City Roots Farm. Microgreens cultivados con amor en MTY.</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/cityroots.farm/" target="_blank">Instagram</a>
+    <a href="https://wa.me/528117789996" target="_blank">WhatsApp</a>
+    <a href="mailto:cityrootsmty@gmail.com">Email</a>
+  </div>
+</footer>
+
+<!-- MODAL SUSCRIPCIÓN -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-brand">
+        <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M20 4L36 14V26L20 36L4 26V14L20 4Z" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/><path d="M12 9L20 4L28 9" stroke="rgba(168,213,162,0.8)" stroke-width="1.5" fill="none"/></svg>
+        <span>City Roots Farm</span>
+      </div>
+      <h3>Suscripción semanal — $399 MXN/mes</h3>
+      <div class="step-indicators">
+        <div class="step-ind" id="ind1">
+          <div class="step-circle">1</div>
+          <span>Tu pedido</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-ind inactive" id="ind2">
+          <div class="step-circle">2</div>
+          <span>Pago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 1: FORMULARIO -->
+    <div class="modal-body" id="step1">
+      <div class="form-group">
+        <label>Nombre completo</label>
+        <input type="text" id="f-nombre" placeholder="Tu nombre completo">
+      </div>
+      <div class="form-group">
+        <label>Teléfono / WhatsApp</label>
+        <input type="tel" id="f-telefono" placeholder="Ej: 81 1234 5678" maxlength="15" inputmode="tel">
+      </div>
+      <div class="form-group">
+        <label>Dirección de entrega</label>
+        <input type="text" id="f-direccion" placeholder="Calle, número, colonia">
+      </div>
+      <div class="form-group">
+        <label>Código Postal</label>
+        <div class="cp-wrapper">
+          <input type="text" id="f-cp" placeholder="Ej: 66220" maxlength="5" inputmode="numeric" pattern="[0-9]*">
+          <div class="cp-feedback" id="cp-feedback"></div>
+        </div>
+        <div class="cp-zone-msg" id="cp-zone-msg"></div>
+      </div>
+      <div class="form-group">
+        <label>Día de entrega preferido</label>
+        <div class="dias-grid">
+          <button type="button" class="dia-btn" onclick="selDia(this,'Lunes')">Lunes</button>
+          <button type="button" class="dia-btn" onclick="selDia(this,'Martes')">Martes</button>
+          <button type="button" class="dia-btn" onclick="selDia(this,'Miércoles')">Miércoles</button>
+          <button type="button" class="dia-btn" onclick="selDia(this,'Jueves')">Jueves</button>
+          <button type="button" class="dia-btn" onclick="selDia(this,'Viernes')">Viernes</button>
+        </div>
+        <input type="hidden" id="f-dia">
+      </div>
+      <div class="form-group">
+        <label>Variedad por semana</label>
+        <div class="semana-row"><div class="semana-label"><div class="semana-dot" style="background:var(--green-mid)"></div>Semana 1</div><select id="f-s1"><option value="">— Elige —</option><option>🌶 Spicy Mix</option><option>🟢 Chícharo</option><option disabled>🔵 Brócoli — Próximamente</option><option>🌻 Girasol</option><option>🔴 Rábano</option><option disabled>🍈 Melón — Próximamente</option></select></div>
+        <div class="semana-row"><div class="semana-label"><div class="semana-dot" style="background:var(--green-bright)"></div>Semana 2</div><select id="f-s2"><option value="">— Elige —</option><option>🌶 Spicy Mix</option><option>🟢 Chícharo</option><option disabled>🔵 Brócoli — Próximamente</option><option>🌻 Girasol</option><option>🔴 Rábano</option><option disabled>🍈 Melón — Próximamente</option></select></div>
+        <div class="semana-row"><div class="semana-label"><div class="semana-dot" style="background:var(--amber)"></div>Semana 3</div><select id="f-s3"><option value="">— Elige —</option><option>🌶 Spicy Mix</option><option>🟢 Chícharo</option><option disabled>🔵 Brócoli — Próximamente</option><option>🌻 Girasol</option><option>🔴 Rábano</option><option disabled>🍈 Melón — Próximamente</option></select></div>
+        <div class="semana-row"><div class="semana-label"><div class="semana-dot" style="background:var(--green-deep)"></div>Semana 4</div><select id="f-s4"><option value="">— Elige —</option><option>🌶 Spicy Mix</option><option>🟢 Chícharo</option><option disabled>🔵 Brócoli — Próximamente</option><option>🌻 Girasol</option><option>🔴 Rábano</option><option disabled>🍈 Melón — Próximamente</option></select></div>
+      </div>
+      <div class="form-error" id="form-error"></div>
+      <button class="btn-full green" onclick="irAlPago()">Continuar al pago →</button>
+      <p style="text-align:center;font-size:0.78rem;color:var(--stone);margin-top:0.8rem;font-weight:300;">Siguiente paso: pago seguro con tarjeta</p>
+    </div>
+
+    <!-- PASO 2: PAGO -->
+    <div class="modal-body" id="step2" style="display:none;">
+      <div class="order-summary">
+        <div class="order-summary-label">Resumen de tu pedido</div>
+        <div class="order-summary-text" id="order-summary-text"></div>
+        <div class="order-total"><span>Total mensual</span><strong>$399 <span style="font-size:0.75rem;font-weight:400;">MXN</span></strong></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:1rem;">
+        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=ae720f53f363402d8fdf280ea736f0f9" target="_blank" rel="noopener" class="btn-mp-pago" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#009ee3;color:white;text-decoration:none;padding:1rem 1.5rem;border-radius:50px;font-size:0.95rem;font-weight:600;letter-spacing:0.02em;transition:all 0.3s ease;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(0,158,227,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          Pagar con tarjeta — Mercado Pago
+        </a>
+        <a href="#" onclick="enviarWA();return false;" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:white;text-decoration:none;padding:0.85rem 1.5rem;border-radius:50px;font-size:0.88rem;font-weight:500;transition:all 0.3s ease;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+          Confirmar por WhatsApp
+        </a>
+        <p style="text-align:center;font-size:0.72rem;color:var(--stone);margin:0;">Pago seguro procesado por Mercado Pago. Tu suscripción se renueva mensualmente.</p>
+      </div>
+      <button class="btn-full outline" onclick="volverPaso1()">← Volver y editar pedido</button>
+    </div>
+
+    <!-- CONFIRMACIÓN -->
+    <div class="form-confirm" id="step-confirm">
+      <div class="confirm-icon">✓</div>
+      <h3>¡Pedido enviado!</h3>
+      <p>Tu solicitud fue enviada por WhatsApp. Te contactaremos pronto para confirmar tu primera entrega.</p>
+      <button class="btn-full green" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PRECIO = 399;
+  let pedido = {};
+  let cpValido = false;
+
+  // ── ZONAS DE ENTREGA ──
+  const ZONAS_ENTREGA = {
+    // San Pedro Garza García
+    '66220': 'Del Valle · San Pedro',
+    '66225': 'Del Valle / La Joya',
+    '66250': 'Bosques del Valle / Jerónimo Siller',
+    '66254': 'Carrizalejo',
+    '66256': 'Lomas del Valle',
+    '66257': 'Del Valle sector Fátima',
+    '66259': 'Gómez Morín / Carrizalejo',
+    '66260': 'San Agustín / Valle Oriente',
+    '66263': 'Zona Campestre / Santa Engracia',
+    '66265': 'Valle del Campestre',
+    '66266': 'Santa Bárbara / Valle Oriente norte',
+    '66267': 'Santa Engracia',
+    '66268': 'Del Valle sector norte',
+    '66270': 'Colinas de San Agustín / San Patricio',
+    '66273': 'Montebello / Corp. Santa Engracia',
+    '66274': 'Jardines de San Agustín',
+    '66275': 'Los Encinos de San Agustín',
+    '66278': 'Valle Oriente / Real del Valle / Privanzas',
+    '66279': 'Punto Central',
+    '66280': 'Balcones del Valle / Colinas Sierra Madre',
+    '66285': 'Valle San Ángel / Villas del Valle',
+    '66286': 'Sierra del Valle / El Santuario',
+    '66287': 'Lomas del Rosario',
+    '66290': 'Privada Bosques / zona alta sur',
+    // Monterrey — corredor Lázaro Cárdenas / Garza Sada / Tec / Contry / Sur
+    '64920': 'Del Paseo Residencial',
+    '64830': 'Nuevo Sur / Ladrillera',
+    '64840': 'Altavista / Garza Sada',
+    '64845': 'Contry Lux',
+    '64858': 'Contry los Naranjos',
+    '64860': 'Contry / Los Estanques',
+    '64865': 'Contry los Nogales',
+    '64890': 'Satélite / Contry sur / Las Torres',
+    '64700': 'Tecnológico / Roma / zona Tec',
+    '64750': 'Corredor sur-centro',
+    '64980': 'Carretera Nacional / Esfera / Pueblo Serena',
+    '64985': 'La Rioja · Residenciales',
+    '64986': 'Lagos del Vergel',
+    '64989': 'Sierra Alta / Carretera Nacional',
+    '64990': 'La Estanzuela / El Uro',
+    // Monterrey centro / poniente
+    '64000': 'Centro de Monterrey',
+    '64010': 'Centro / alrededores',
+    '64460': 'Mitras Centro / Galerías Monterrey'
+  };
+
+  // ── VALIDACIÓN DE CP EN TIEMPO REAL ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const cpInput = document.getElementById('f-cp');
+    if (!cpInput) return;
+    cpInput.addEventListener('input', (e) => {
+      // Solo permitir números
+      e.target.value = e.target.value.replace(/\D/g, '');
+      const val = e.target.value;
+      const feedback = document.getElementById('cp-feedback');
+      const zoneMsg = document.getElementById('cp-zone-msg');
+
+      // Resetear estados
+      cpInput.classList.remove('input-valid', 'input-invalid');
+      feedback.classList.remove('valid', 'invalid');
+      feedback.textContent = '';
+      zoneMsg.classList.remove('show-valid', 'show-invalid');
+      zoneMsg.textContent = '';
+      cpValido = false;
+
+      if (val.length < 5) return;
+
+      if (ZONAS_ENTREGA[val]) {
+        // CP válido
+        cpValido = true;
+        cpInput.classList.add('input-valid');
+        feedback.textContent = '✓';
+        feedback.classList.add('valid');
+        zoneMsg.textContent = '📍 Zona: ' + ZONAS_ENTREGA[val] + ' — ¡Sí entregamos aquí!';
+        zoneMsg.classList.add('show-valid');
+      } else {
+        // CP fuera de zona
+        cpValido = false;
+        cpInput.classList.add('input-invalid');
+        feedback.textContent = '✗';
+        feedback.classList.add('invalid');
+        zoneMsg.innerHTML = 'Lo sentimos, aún no entregamos en tu zona.<br>Actualmente cubrimos <strong>San Pedro Garza García</strong> y <strong>sur de Monterrey</strong>.';
+        zoneMsg.classList.add('show-invalid');
+      }
+    });
+  });
+
+  function openModal() {
+    document.getElementById('modal-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    showStep1();
+  }
+  function closeModal() {
+    document.getElementById('modal-overlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+  function showStep1() {
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step-confirm').style.display = 'none';
+    document.getElementById('ind1').classList.remove('inactive');
+    document.getElementById('ind2').classList.add('inactive');
+  }
+  function showStep2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    document.getElementById('step-confirm').style.display = 'none';
+    document.getElementById('ind1').classList.add('inactive');
+    document.getElementById('ind2').classList.remove('inactive');
+    document.getElementById('modal-box').scrollTop = 0;
+  }
+  function volverPaso1() { showStep1(); }
+
+  function selDia(btn, dia) {
+    document.getElementById('f-dia').value = dia;
+    document.querySelectorAll('.dia-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function irAlPago() {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const tel = document.getElementById('f-telefono').value.trim();
+    const dir = document.getElementById('f-direccion').value.trim();
+    const cp = document.getElementById('f-cp').value.trim();
+    const dia = document.getElementById('f-dia').value;
+    const s1 = document.getElementById('f-s1').value;
+    const s2 = document.getElementById('f-s2').value;
+    const s3 = document.getElementById('f-s3').value;
+    const s4 = document.getElementById('f-s4').value;
+    const err = document.getElementById('form-error');
+
+    if (!nombre) { showErr('Por favor ingresa tu nombre.'); return; }
+    if (!tel || tel.replace(/\D/g,'').length < 10) { showErr('Por favor ingresa un número de teléfono válido (10 dígitos).'); return; }
+    if (!dir) { showErr('Por favor ingresa tu dirección de entrega.'); return; }
+    if (!cp || cp.length < 5) { showErr('Por favor ingresa tu código postal (5 dígitos).'); return; }
+    if (!cpValido) { showErr('Tu código postal está fuera de nuestra zona de entrega. Actualmente cubrimos San Pedro Garza García, corredor Tec/Contry/Carretera Nacional y centro de Monterrey.'); return; }
+    if (!dia) { showErr('Por favor selecciona un día de entrega.'); return; }
+    if (!s1||!s2||!s3||!s4) { showErr('Por favor elige una variedad para cada semana.'); return; }
+    err.style.display = 'none';
+
+    const zona = ZONAS_ENTREGA[cp] || '';
+    pedido = { nombre, tel, dir, cp, zona, dia, s1, s2, s3, s4 };
+    document.getElementById('order-summary-text').innerHTML =
+      `<strong>${nombre}</strong><br>📞 ${tel}<br>📍 ${dir}, CP ${cp} <span style="font-size:0.78rem;color:var(--green-mid);">(${zona})</span><br>📅 Entrega cada ${dia}<br>` +
+      `S1: ${s1} · S2: ${s2} · S3: ${s3} · S4: ${s4}`;
+
+    showStep2();
+  }
+
+  function showErr(msg) {
+    const el = document.getElementById('form-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function getMsgWA() {
+    return `¡Hola! Quiero suscribirme a los microgreens 🌱\n\n*Nombre:* ${pedido.nombre}\n*Teléfono:* ${pedido.tel}\n*Dirección:* ${pedido.dir}\n*CP:* ${pedido.cp} (${pedido.zona})\n*Día de entrega:* ${pedido.dia}\n\n*Variedades:*\n• Semana 1: ${pedido.s1}\n• Semana 2: ${pedido.s2}\n• Semana 3: ${pedido.s3}\n• Semana 4: ${pedido.s4}\n\n*Total:* $399 MXN/mes\n\n¡Listo para confirmar! 🙌`;
+  }
+
+  function enviarWA() {
+    window.open('https://wa.me/528117789996?text=' + encodeURIComponent(getMsgWA()), '_blank');
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step-confirm').style.display = 'block';
+  }
+
+
+  // ── Nav scroll effect ──
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+    lastScroll = window.scrollY;
+  }, { passive: true });
+
+  // ── Mobile nav ──
+  function toggleMobileNav() {
+    const overlay = document.getElementById('mobile-nav');
+    const hamburger = document.querySelector('.hamburger');
+    overlay.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // ── Scroll reveal with staggered delays ──
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = entry.target.parentElement.querySelectorAll('.reveal, .reveal-left, .reveal-scale');
+        const idx = Array.from(siblings).indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 100);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => obs.observe(el));
+
+  // ── Smooth parallax for hero image ──
+  window.addEventListener('scroll', () => {
+    const heroImg = document.querySelector('.hero-img');
+    if (heroImg && window.scrollY < window.innerHeight) {
+      heroImg.style.transform = `translateY(${window.scrollY * 0.15}px) scale(1)`;
+    }
+  }, { passive: true });
+
+  // ── Counter animation for stats ──
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const text = el.textContent;
+        const match = text.match(/(\d+)/);
+        if (match) {
+          const target = parseInt(match[1]);
+          const prefix = text.substring(0, text.indexOf(match[1]));
+          const suffix = text.substring(text.indexOf(match[1]) + match[1].length);
+          let current = 0;
+          const step = Math.max(1, Math.floor(target / 40));
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = prefix + current + suffix;
+          }, 30);
+        }
+        counterObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.fc-num, .float-num, .d-num').forEach(el => counterObs.observe(el));
+  // ── Page Loader ──
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 600);
+  });
+
+  // ── Scroll Progress Bar ──
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
+  }, { passive: true });
+
+  // ── Button Ripple Effect ──
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-primary, .btn-full.green, .nav-cta, .btn-mp-pago');
+    if (!btn) return;
+    const ripple = document.createElement('span');
+    ripple.className = 'btn-ripple';
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px;`;
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+
+  // ── 3D Card Tilt on Hover ──
+  document.querySelectorAll('.producto-card:not(.proximamente), .benefit-card, .future-card, .use-card:not(.featured), .kit-step').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s var(--transition-smooth)';
+      setTimeout(() => card.style.transition = '', 500);
+    });
+  });
+
+  // ── Parallax on Hero Image ──
+  const heroImg = document.querySelector('.hero-img');
+  if (heroImg) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight) {
+        heroImg.style.transform = `scale(1.05) translateY(${window.scrollY * 0.08}px)`;
+      }
+    }, { passive: true });
+  }
+</script>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/528117789996?text=Hola%2C%20me%20interesan%20los%20microgreens%20%F0%9F%8C%B1" target="_blank" rel="noopener" class="floating-wa" aria-label="WhatsApp">
+  <span class="floating-wa-pulse"></span>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347A9.94 9.94 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+</a>
+
+</body>
+</html>
