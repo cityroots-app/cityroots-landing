@@ -1023,13 +1023,9 @@
         <div class="cp-zone-msg" id="cp-zone-msg"></div>
       </div>
       <div class="form-group">
-        <label>Día de entrega preferido</label>
-        <div class="dias-grid">
-          <button type="button" class="dia-btn" onclick="selDia(this,'Lunes')">Lunes</button>
-          <button type="button" class="dia-btn" onclick="selDia(this,'Martes')">Martes</button>
-          <button type="button" class="dia-btn" onclick="selDia(this,'Miércoles')">Miércoles</button>
-          <button type="button" class="dia-btn" onclick="selDia(this,'Jueves')">Jueves</button>
-          <button type="button" class="dia-btn" onclick="selDia(this,'Viernes')">Viernes</button>
+        <label>Día de entrega</label>
+        <div id="dia-info" style="padding:0.9rem 1rem;border-radius:12px;background:#f5f5f0;border:1px dashed #c9c9bc;font-size:0.85rem;color:var(--stone);line-height:1.5;">
+          📅 Entregamos los <strong>martes</strong> (sur de Monterrey) y <strong>miércoles</strong> (San Pedro Garza García). <br>Tu día se asigna automáticamente al validar tu código postal.
         </div>
         <input type="hidden" id="f-dia">
       </div>
@@ -1082,53 +1078,52 @@
   let cpValido = false;
 
   // ── ZONAS DE ENTREGA ──
+  // grupo: 'sp' = San Pedro (entrega miércoles) · 'sur' = Sur de Monterrey (entrega martes)
   const ZONAS_ENTREGA = {
-    // San Pedro Garza García
-    '66220': 'Del Valle · San Pedro',
-    '66225': 'Del Valle / La Joya',
-    '66250': 'Bosques del Valle / Jerónimo Siller',
-    '66254': 'Carrizalejo',
-    '66256': 'Lomas del Valle',
-    '66257': 'Del Valle sector Fátima',
-    '66259': 'Gómez Morín / Carrizalejo',
-    '66260': 'San Agustín / Valle Oriente',
-    '66263': 'Zona Campestre / Santa Engracia',
-    '66265': 'Valle del Campestre',
-    '66266': 'Santa Bárbara / Valle Oriente norte',
-    '66267': 'Santa Engracia',
-    '66268': 'Del Valle sector norte',
-    '66270': 'Colinas de San Agustín / San Patricio',
-    '66273': 'Montebello / Corp. Santa Engracia',
-    '66274': 'Jardines de San Agustín',
-    '66275': 'Los Encinos de San Agustín',
-    '66278': 'Valle Oriente / Real del Valle / Privanzas',
-    '66279': 'Punto Central',
-    '66280': 'Balcones del Valle / Colinas Sierra Madre',
-    '66285': 'Valle San Ángel / Villas del Valle',
-    '66286': 'Sierra del Valle / El Santuario',
-    '66287': 'Lomas del Rosario',
-    '66290': 'Privada Bosques / zona alta sur',
-    // Monterrey — corredor Lázaro Cárdenas / Garza Sada / Tec / Contry / Sur
-    '64920': 'Del Paseo Residencial',
-    '64830': 'Nuevo Sur / Ladrillera',
-    '64840': 'Altavista / Garza Sada',
-    '64845': 'Contry Lux',
-    '64858': 'Contry los Naranjos',
-    '64860': 'Contry / Los Estanques',
-    '64865': 'Contry los Nogales',
-    '64890': 'Satélite / Contry sur / Las Torres',
-    '64700': 'Tecnológico / Roma / zona Tec',
-    '64750': 'Corredor sur-centro',
-    '64980': 'Carretera Nacional / Esfera / Pueblo Serena',
-    '64985': 'La Rioja · Residenciales',
-    '64986': 'Lagos del Vergel',
-    '64989': 'Sierra Alta / Carretera Nacional',
-    '64990': 'La Estanzuela / El Uro',
-    // Monterrey centro / poniente
-    '64000': 'Centro de Monterrey',
-    '64010': 'Centro / alrededores',
-    '64460': 'Mitras Centro / Galerías Monterrey'
+    // ── San Pedro Garza García → Miércoles ──
+    '66220': { zona: 'Del Valle · San Pedro', grupo: 'sp' },
+    '66225': { zona: 'Del Valle / La Joya', grupo: 'sp' },
+    '66250': { zona: 'Bosques del Valle / Jerónimo Siller', grupo: 'sp' },
+    '66254': { zona: 'Carrizalejo', grupo: 'sp' },
+    '66256': { zona: 'Lomas del Valle', grupo: 'sp' },
+    '66257': { zona: 'Del Valle sector Fátima', grupo: 'sp' },
+    '66259': { zona: 'Gómez Morín / Carrizalejo', grupo: 'sp' },
+    '66260': { zona: 'San Agustín / Valle Oriente', grupo: 'sp' },
+    '66263': { zona: 'Zona Campestre / Santa Engracia', grupo: 'sp' },
+    '66265': { zona: 'Valle del Campestre', grupo: 'sp' },
+    '66266': { zona: 'Santa Bárbara / Valle Oriente norte', grupo: 'sp' },
+    '66267': { zona: 'Santa Engracia', grupo: 'sp' },
+    '66268': { zona: 'Del Valle sector norte', grupo: 'sp' },
+    '66270': { zona: 'Colinas de San Agustín / San Patricio', grupo: 'sp' },
+    '66273': { zona: 'Montebello / Corp. Santa Engracia', grupo: 'sp' },
+    '66274': { zona: 'Jardines de San Agustín', grupo: 'sp' },
+    '66275': { zona: 'Los Encinos de San Agustín', grupo: 'sp' },
+    '66278': { zona: 'Valle Oriente / Real del Valle / Privanzas', grupo: 'sp' },
+    '66279': { zona: 'Punto Central', grupo: 'sp' },
+    '66280': { zona: 'Balcones del Valle / Colinas Sierra Madre', grupo: 'sp' },
+    '66285': { zona: 'Valle San Ángel / Villas del Valle', grupo: 'sp' },
+    '66286': { zona: 'Sierra del Valle / El Santuario', grupo: 'sp' },
+    '66287': { zona: 'Lomas del Rosario', grupo: 'sp' },
+    '66290': { zona: 'Privada Bosques / zona alta sur', grupo: 'sp' },
+    // ── Sur de Monterrey (corredor Tec / Contry / Carretera Nacional) → Martes ──
+    '64920': { zona: 'Del Paseo Residencial', grupo: 'sur' },
+    '64830': { zona: 'Nuevo Sur / Ladrillera', grupo: 'sur' },
+    '64840': { zona: 'Altavista / Garza Sada', grupo: 'sur' },
+    '64845': { zona: 'Contry Lux', grupo: 'sur' },
+    '64858': { zona: 'Contry los Naranjos', grupo: 'sur' },
+    '64860': { zona: 'Contry / Los Estanques', grupo: 'sur' },
+    '64865': { zona: 'Contry los Nogales', grupo: 'sur' },
+    '64890': { zona: 'Satélite / Contry sur / Las Torres', grupo: 'sur' },
+    '64700': { zona: 'Tecnológico / Roma / zona Tec', grupo: 'sur' },
+    '64750': { zona: 'Corredor sur-centro', grupo: 'sur' },
+    '64980': { zona: 'Carretera Nacional / Esfera / Pueblo Serena', grupo: 'sur' },
+    '64985': { zona: 'La Rioja · Residenciales', grupo: 'sur' },
+    '64986': { zona: 'Lagos del Vergel', grupo: 'sur' },
+    '64989': { zona: 'Sierra Alta / Carretera Nacional', grupo: 'sur' },
+    '64990': { zona: 'La Estanzuela / El Uro', grupo: 'sur' }
   };
+
+  const DIAS_ENTREGA = { sp: 'Miércoles', sur: 'Martes' };
 
   // ── VALIDACIÓN DE CP EN TIEMPO REAL ──
   document.addEventListener('DOMContentLoaded', () => {
@@ -1153,12 +1148,15 @@
 
       if (ZONAS_ENTREGA[val]) {
         // CP válido
+        const info = ZONAS_ENTREGA[val];
+        const dia = DIAS_ENTREGA[info.grupo];
         cpValido = true;
         cpInput.classList.add('input-valid');
         feedback.textContent = '✓';
         feedback.classList.add('valid');
-        zoneMsg.textContent = '📍 Zona: ' + ZONAS_ENTREGA[val] + ' — ¡Sí entregamos aquí!';
+        zoneMsg.innerHTML = '📍 Zona: ' + info.zona + '<br>📅 Día de entrega asignado: <strong>' + dia + '</strong>';
         zoneMsg.classList.add('show-valid');
+        document.getElementById('f-dia').value = dia;
       } else {
         // CP fuera de zona
         cpValido = false;
@@ -1167,6 +1165,7 @@
         feedback.classList.add('invalid');
         zoneMsg.innerHTML = 'Lo sentimos, aún no entregamos en tu zona.<br>Actualmente cubrimos <strong>San Pedro Garza García</strong> y <strong>sur de Monterrey</strong>.';
         zoneMsg.classList.add('show-invalid');
+        document.getElementById('f-dia').value = '';
       }
     });
   });
@@ -1221,12 +1220,12 @@
     if (!tel || tel.replace(/\D/g,'').length < 10) { showErr('Por favor ingresa un número de teléfono válido (10 dígitos).'); return; }
     if (!dir) { showErr('Por favor ingresa tu dirección de entrega.'); return; }
     if (!cp || cp.length < 5) { showErr('Por favor ingresa tu código postal (5 dígitos).'); return; }
-    if (!cpValido) { showErr('Tu código postal está fuera de nuestra zona de entrega. Actualmente cubrimos San Pedro Garza García, corredor Tec/Contry/Carretera Nacional y centro de Monterrey.'); return; }
-    if (!dia) { showErr('Por favor selecciona un día de entrega.'); return; }
+    if (!cpValido) { showErr('Tu código postal está fuera de nuestra zona de entrega. Actualmente cubrimos San Pedro Garza García y sur de Monterrey.'); return; }
     if (!s1||!s2||!s3||!s4) { showErr('Por favor elige una variedad para cada semana.'); return; }
     err.style.display = 'none';
 
-    const zona = ZONAS_ENTREGA[cp] || '';
+    const info = ZONAS_ENTREGA[cp] || { zona: '', grupo: '' };
+    const zona = info.zona;
     pedido = { nombre, tel, dir, cp, zona, dia, s1, s2, s3, s4 };
     document.getElementById('order-summary-text').innerHTML =
       `<strong>${nombre}</strong><br>📞 ${tel}<br>📍 ${dir}, CP ${cp} <span style="font-size:0.78rem;color:var(--green-mid);">(${zona})</span><br>📅 Entrega cada ${dia}<br>` +
