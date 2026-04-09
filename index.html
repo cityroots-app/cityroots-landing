@@ -233,6 +233,53 @@
   .care-img { border-radius: 24px; overflow: hidden; aspect-ratio: 3/4; position: sticky; top: 7rem; }
   .care-img img { width: 100%; height: 100%; object-fit: cover; }
 
+  /* TALLERES */
+  .section-talleres { padding: 6rem 5rem; max-width: 1200px; margin: 0 auto; }
+  .talleres-header { text-align: center; margin-bottom: 2rem; }
+  .talleres-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 2.8rem); color: var(--green-deep); line-height: 1.15; margin-bottom: 1rem; }
+  .talleres-header h2 em { font-style: italic; color: var(--green-mid); }
+  .talleres-header p { font-size: 1rem; color: var(--stone); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+  .talleres-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-bottom: 4rem; }
+  .taller-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-soft); transition: all 0.5s var(--transition-smooth); cursor: pointer; position: relative; }
+  .taller-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+  .taller-img { width: 100%; height: 280px; background: var(--green-pale); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .taller-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--transition-smooth); }
+  .taller-card:hover .taller-img img { transform: scale(1.04); }
+  .taller-badge { position: absolute; top: 1rem; left: 1rem; background: var(--amber); color: white; padding: 0.35rem 0.9rem; border-radius: 50px; font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .taller-info { padding: 1.5rem; }
+  .taller-date { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--green-mid); font-weight: 500; margin-bottom: 0.6rem; }
+  .taller-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--green-deep); margin-bottom: 0.5rem; line-height: 1.25; }
+  .taller-info p { font-size: 0.85rem; color: var(--stone); line-height: 1.6; margin-bottom: 1rem; }
+  .taller-details { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+  .taller-detail { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--stone); background: var(--green-pale); padding: 0.3rem 0.7rem; border-radius: 50px; }
+  .btn-ver-flyer { display: inline-flex; align-items: center; gap: 6px; background: var(--green-deep); color: white; border: none; padding: 0.7rem 1.3rem; border-radius: 50px; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; font-family: 'Outfit', sans-serif; }
+  .btn-ver-flyer:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .taller-temas { background: white; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-soft); }
+  .taller-temas h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--green-deep); margin-bottom: 1.5rem; }
+  .temas-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+  .tema-item { display: flex; gap: 0.8rem; align-items: flex-start; }
+  .tema-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .tema-item strong { font-size: 0.85rem; color: var(--green-deep); font-weight: 500; display: block; margin-bottom: 2px; }
+  .tema-item p { font-size: 0.78rem; color: var(--stone); line-height: 1.5; margin: 0; }
+  .temas-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .temas-tags span { font-size: 0.72rem; color: var(--green-mid); background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 50px; font-weight: 400; }
+  .taller-cta { background: linear-gradient(135deg, var(--green-deep) 0%, #1a3d1a 100%); border-radius: var(--radius-lg); padding: 3rem 2.5rem; display: flex; align-items: center; gap: 2.5rem; position: relative; overflow: hidden; }
+  .taller-cta::before { content: ''; position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(168,213,162,0.1) 0%, transparent 70%); pointer-events: none; }
+  .taller-cta-text { flex: 1; }
+  .taller-cta-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: white; margin-bottom: 0.8rem; line-height: 1.2; }
+  .taller-cta-text p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.6; margin-bottom: 1.5rem; }
+  .btn-wa-taller { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: white; text-decoration: none; padding: 0.85rem 1.5rem; border-radius: 50px; font-size: 0.88rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(37,211,102,0.3); }
+  .btn-wa-taller:hover { background: #20bd5a; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(37,211,102,0.4); }
+  .taller-cta-img { width: 200px; height: 200px; border-radius: var(--radius-md); overflow: hidden; flex-shrink: 0; }
+  .taller-cta-img img { width: 100%; height: 100%; object-fit: cover; }
+  .flyer-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 2rem; backdrop-filter: blur(4px); }
+  .flyer-overlay.show { display: flex; }
+  .flyer-box { background: white; border-radius: var(--radius-lg); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: flyerIn 0.4s var(--transition-smooth); }
+  @keyframes flyerIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .flyer-close { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; transition: background 0.3s; }
+  .flyer-close:hover { background: rgba(0,0,0,0.85); }
+  .flyer-box img { width: 100%; display: block; }
+
   /* FUTURO */
   .section-future { padding: 8rem 5rem; background: url('Images/00_Produccion.png') center/cover no-repeat; text-align: center; position: relative; overflow: hidden; }
   .section-future::before { content: ''; position: absolute; inset: 0; background: rgba(15,43,15,0.82); pointer-events: none; }
@@ -451,6 +498,12 @@
     footer { padding: 2.5rem 1.5rem; }
     .hero h1 { font-size: 2.6rem; }
     .hero-stat-row { gap: 1.5rem; }
+    .section-talleres { padding: 4rem 1.5rem; }
+    .talleres-grid { grid-template-columns: 1fr; }
+    .temas-list { grid-template-columns: 1fr; }
+    .taller-cta { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    .taller-cta-img { width: 160px; height: 160px; order: -1; }
+    .taller-cta-text { text-align: center; }
   }
 </style>
 </head>
@@ -476,6 +529,7 @@
     <li><a href="#suscripcion">Suscripción</a></li>
     <li><a href="#variedades">Variedades</a></li>
     <li><a href="#kit">Kit de cultivo</a></li>
+    <li><a href="#talleres">Talleres</a></li>
     <li><a href="#" class="nav-cta" onclick="event.preventDefault();openModal()">Ordenar ahora</a></li>
   </ul>
   <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menú">
@@ -489,6 +543,7 @@
   <a href="#suscripcion" onclick="toggleMobileNav()">Suscripción</a>
   <a href="#variedades" onclick="toggleMobileNav()">Variedades</a>
   <a href="#kit" onclick="toggleMobileNav()">Kit de cultivo</a>
+  <a href="#talleres" onclick="toggleMobileNav()">Talleres</a>
   <a href="#" class="nav-cta" onclick="event.preventDefault();toggleMobileNav();openModal()">Ordenar ahora</a>
 </div>
 
@@ -861,6 +916,68 @@
     <p style="font-size:0.82rem;color:var(--stone);margin-top:1rem;font-weight:300;">Envíos a todo México · Recíbelo en tu puerta</p>
   </div>
 </section>
+
+<!-- TALLERES -->
+<section class="section-talleres" id="talleres">
+  <div class="talleres-header reveal">
+    <div class="section-label" style="justify-content:center;">Talleres</div>
+    <h2>Aprende a cultivar <em>tus propios alimentos</em></h2>
+    <p>Llevamos talleres interactivos de microgreens a colonias residenciales. Una experiencia divertida y educativa para toda la familia.</p>
+  </div>
+  <h3 class="reveal" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--green-deep);margin-bottom:1.5rem;">Próximos talleres</h3>
+  <div class="talleres-grid">
+    <div class="taller-card reveal" onclick="abrirFlyer()">
+      <div class="taller-img">
+        <img src="Images/Taller.png" alt="Taller de microgreens para niños">
+        <div class="taller-badge">Evento privado · Residencial de la Sierra</div>
+      </div>
+      <div class="taller-info">
+        <div class="taller-date">📅 Sábado 25 de abril · 10:00 AM</div>
+        <h3>Siembra, cultiva y cosecha tus propios microgreens</h3>
+        <p>Una experiencia para toda la familia. Aprende sobre nutrición, producción de alimentos y llévate tu propio kit para cosechar en casa en solo 10 días.</p>
+        <div class="taller-details">
+          <span class="taller-detail">📍 Palapa Parque del Canal · Residencial de la Sierra</span>
+          <span class="taller-detail">💰 $150 MXN (kit incluido)</span>
+          <span class="taller-detail">🎟 Cupo limitado</span>
+        </div>
+        <button class="btn-ver-flyer">Ver flyer del evento →</button>
+      </div>
+    </div>
+    <div class="taller-temas reveal">
+      <h4>¿Qué aprenderás en el taller?</h4>
+      <div class="temas-list">
+        <div class="tema-item"><span class="tema-icon">🌱</span><div><strong>Kit de cultivo completo</strong><p>Semillas, sustrato, charola y atomizador para empezar tu cultivo en casa</p></div></div>
+        <div class="tema-item"><span class="tema-icon">🎓</span><div><strong>Plática interactiva</strong><p>Nutrición, superalimentos y cómo cultivar en casa de forma fácil</p></div></div>
+        <div class="tema-item"><span class="tema-icon">🧑‍🌾</span><div><strong>Conoce a tu productor</strong><p>De dónde viene tu comida y por qué importa saber su origen</p></div></div>
+        <div class="tema-item"><span class="tema-icon">📖</span><div><strong>Guía paso a paso</strong><p>Instrucciones impresas + video tutorial por QR para seguir en casa</p></div></div>
+      </div>
+      <div class="temas-tags">
+        <span>Microgreens</span><span>Nutrientes</span><span>Producción de alimentos</span><span>Agroquímicos</span><span>Know your farmer</span><span>Alimentación real</span>
+      </div>
+    </div>
+  </div>
+  <div class="taller-cta reveal">
+    <div class="taller-cta-text">
+      <h3>¿Te gustaría hacer un taller en tu colonia?</h3>
+      <p>Organizamos talleres privados para colonias residenciales, escuelas y empresas. Una actividad única que conecta a tu comunidad con la naturaleza.</p>
+      <a href="https://wa.me/528117789996?text=%C2%A1Hola!%20Me%20interesa%20organizar%20un%20taller%20de%20microgreens%20en%20mi%20colonia%20%F0%9F%8C%B1%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener" class="btn-wa-taller">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.997 2C6.477 2 2 6.477 2 12c0 1.818.487 3.525 1.337 5L2 22l5.134-1.347C8.72 21.543 10.325 22 11.997 22 17.52 22 22 17.52 22 12S17.52 2 11.997 2z" fill="white"/></svg>
+        Más información por WhatsApp
+      </a>
+    </div>
+    <div class="taller-cta-img">
+      <img src="Images/Taller.png" alt="Taller de microgreens">
+    </div>
+  </div>
+</section>
+
+<!-- FLYER MODAL -->
+<div class="flyer-overlay" id="flyer-overlay" onclick="if(event.target===this)cerrarFlyer()">
+  <div class="flyer-box">
+    <button class="flyer-close" onclick="cerrarFlyer()">✕</button>
+    <img src="Images/Flyer_Taller.png" alt="Flyer del taller de microgreens - 25 de abril" style="width:100%;display:block;">
+  </div>
+</div>
 
 <!-- CIENCIA -->
 <section class="section-science">
@@ -1285,6 +1402,16 @@
     window.open('https://wa.me/528117789996?text=' + encodeURIComponent(msg), '_blank');
   }
 
+
+  // ── Flyer modal ──
+  function abrirFlyer() {
+    document.getElementById('flyer-overlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarFlyer() {
+    document.getElementById('flyer-overlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
 
   // ── Nav scroll effect ──
   let lastScroll = 0;
