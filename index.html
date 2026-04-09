@@ -1049,7 +1049,7 @@
         <div class="order-total"><span>Total mensual</span><strong>$399 <span style="font-size:0.75rem;font-weight:400;">MXN</span></strong></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:1rem;">
-        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=ae720f53f363402d8fdf280ea736f0f9" target="_blank" rel="noopener" class="btn-mp-pago" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#009ee3;color:white;text-decoration:none;padding:1rem 1.5rem;border-radius:50px;font-size:0.95rem;font-weight:600;letter-spacing:0.02em;transition:all 0.3s ease;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(0,158,227,0.3);">
+        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=ae720f53f363402d8fdf280ea736f0f9" target="_blank" rel="noopener" onclick="guardarEnSheet()" class="btn-mp-pago" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#009ee3;color:white;text-decoration:none;padding:1rem 1.5rem;border-radius:50px;font-size:0.95rem;font-weight:600;letter-spacing:0.02em;transition:all 0.3s ease;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(0,158,227,0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
           Pagar con tarjeta — Mercado Pago
         </a>
@@ -1242,11 +1242,35 @@
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbw8X6SnOgL-ktTgwNfOtOE1-7BdzDiRnJEsymrKqekb_DnRc0WNhGls6AqjEmTjzXrt/exec';
+
+  function guardarEnSheet() {
+    var params = new URLSearchParams({
+      nombre: pedido.nombre,
+      telefono: pedido.tel,
+      direccion: pedido.dir,
+      cp: pedido.cp,
+      zona: pedido.zona,
+      dia: pedido.dia,
+      s1: pedido.s1,
+      s2: pedido.s2,
+      s3: pedido.s3,
+      s4: pedido.s4,
+      codigo_descuento: ''
+    });
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = GOOGLE_SHEET_URL + '?' + params.toString();
+    document.body.appendChild(iframe);
+    setTimeout(function() { iframe.remove(); }, 5000);
+  }
+
   function getMsgWA() {
     return `¡Hola! Quiero suscribirme a los microgreens 🌱\n\n*Nombre:* ${pedido.nombre}\n*Teléfono:* ${pedido.tel}\n*Dirección:* ${pedido.dir}\n*CP:* ${pedido.cp} (${pedido.zona})\n*Día de entrega:* ${pedido.dia}\n\n*Variedades:*\n• Semana 1: ${pedido.s1}\n• Semana 2: ${pedido.s2}\n• Semana 3: ${pedido.s3}\n• Semana 4: ${pedido.s4}\n\n*Total:* $399 MXN/mes\n\n¡Listo para confirmar! 🙌`;
   }
 
   function enviarWA() {
+    guardarEnSheet();
     window.open('https://wa.me/528117789996?text=' + encodeURIComponent(getMsgWA()), '_blank');
     document.getElementById('step2').style.display = 'none';
     document.getElementById('step-confirm').style.display = 'block';
