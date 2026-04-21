@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Logs / temp
+*.log
+*.tmp
+
+# Backups accidentales
+*.bak
+
+# Env secrets (por si algún día se usan)
+.env
+.env.local
